@@ -9,7 +9,7 @@ import (
 )
 
 type Https struct {
-	Address string
+	Address string `yaml:"address" env-required:"true" `
 }
 
 type Config struct {
@@ -45,7 +45,7 @@ func MustLoad() *Config {
 	var cfg Config
 	err:=cleanenv.ReadConfig(configpath, &cfg)
 	if err!=nil{
-		log.Fatal("Not able to read config file:%s",err.Error())
+		log.Fatalf("Not able to read config file:%s",err.Error())
 
 	}
 

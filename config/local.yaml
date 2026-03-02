@@ -3,7 +3,7 @@
 env: "dev"
 
 storage_path: "storage/storage.db"
-hhtp_server: 
+http_server: 
   address: "localhost:8000"
 
 
