@@ -4,6 +4,7 @@ import (
 	// "fmt"
 	"context"
 	"fmt"
+	"log"
 	"log/slog"
 	"net/http"
 	"os"
@@ -11,8 +12,10 @@ import (
 	"syscall"
 	"time"
 
+	// "github.com/palash27114/REST_API_PROJECT/internal/checker"
 	"github.com/palash27114/REST_API_PROJECT/internal/config"
 	"github.com/palash27114/REST_API_PROJECT/internal/http/handlers/student"
+	"github.com/palash27114/REST_API_PROJECT/internal/storage/sqlite"
 )
 
 func main() {
@@ -24,11 +27,21 @@ func main() {
 
 
 	//db set up
+	storage,err:=sqlite.New(cfg)
+	if err!=nil{
+		log.Fatal(err)
+	}
+	slog.Info("Storage initialised",slog.String("env",cfg.Env),slog.String("version","1.0.0"))
+
+	
 	//setup router
 	router:=http.NewServeMux()
 
 
-	router.HandleFunc("POST /api/students",student.New())
+	router.HandleFunc("POST /api/students",student.New(storage))
+	
+	
+
 	
 
 
